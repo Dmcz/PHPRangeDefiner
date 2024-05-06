@@ -29,7 +29,7 @@ class Constraint
     /**
      * get comparisons
      *
-     * @return Comparisons<T>[]
+     * @return Comparison<T>[]
      */
     public function getComparisons(): array
     {

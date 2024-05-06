@@ -6,7 +6,6 @@ namespace Dmcz\RangeDefiner;
 
 use Dmcz\RangeDefiner\Constraint;
 use Dmcz\RangeDefiner\constants\Logic;
-use Dmcz\RangeDefiner\constants\Comparator;
 use Dmcz\RangeDefiner\constants\MatchPattern;
 
 /**
@@ -77,15 +76,132 @@ class Range
     }
 
     /**
-     * Adds an equality comparison to the last constraint.
+     * Adds an equality comparison to the current chain of constraints.
      * 
-     * @param T $value
-     * @param Logic $logic
+     * @param T  $value         The value to be compared for equality.
+     * @param Logic $logic      The logical operator to apply (default: AND).
      * @return self
      */
     public function equal($value, Logic $logic = Logic::AND): self
     {
-        $this->append(new Comparison(Comparator::EQ, $value, $logic));
+        $this->append(Comparison::equal($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a non-equality comparison to the current chain of constraints.
+     *
+     * @param T $value The value to be compared for non-equality.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function notEqual($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::notEqual($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a greater-than comparison to the current chain of constraints.
+     *
+     * @param T $value The value to be compared as greater than the reference.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function greaterThan($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::greaterThan($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a greater-than-or-equal comparison to the current chain of constraints.
+     *
+     * @param T $value The value to be compared as greater than or equal to the reference.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function greaterEqual($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::greaterEqual($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a less-than comparison to the current chain of constraints.
+     *
+     * @param T $value The value to be compared as less than the reference.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function lessThan($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::lessThan($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a less-than-or-equal comparison to the current chain of constraints.
+     *
+     * @param T $value The value to be compared as less than or equal to the reference.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function lessEqual($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::lessEqual($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds included in a specified set comparison to the current chain of constraints.
+     *
+     * @param T[] $value Array of values defining the range from which the values should be included.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function withIn($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::withIn($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds excluded in a specified set comparison to the current chain of constraints.
+     *
+     * @param T[] $value Array of values defining the range from which the values should be excluded.
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function notIn($value, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::notIn($value, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a null comparison to the current chain of constraints.
+     * Asserts that the field is null. Uses logical AND by default.
+     *
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function isNull(Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::isNull($logic));
+        return $this;
+    }
+
+    /**
+     * Adds a not-null comparison to the current chain of constraints.
+     * Asserts that the field is not null. Uses logical AND by default.
+     *
+     * @param Logic $logic The logical operator to apply (default: AND).
+     * @return self
+     */
+    public function notNull(Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::notNull($logic));
         return $this;
     }
 
@@ -99,7 +215,21 @@ class Range
      */
     public function between($min, $max, Logic $logic = Logic::AND): self
     {
-        $this->append(new Comparison(Comparator::BETWEEN, [$min, $max], $logic));
+        $this->append(Comparison::between($min, $max, $logic));
+        return $this;
+    }
+
+    /**
+     * Adds a inclusive comparison to the last constraint
+     * 
+     * @param T $min            The minimum value of the range(inclusive).
+     * @param T $max            The maximum value of the range(inclusive).
+     * @param Logic $logic      The logic for this comparison.
+     * @return self
+     */
+    public function inclusive($min, $max, Logic $logic = Logic::AND): self
+    {
+        $this->append(Comparison::inclusive($min, $max, $logic));
         return $this;
     }
 
@@ -113,7 +243,7 @@ class Range
      */
     public function match($value, MatchPattern $pattern, Logic $logic = Logic::AND): self
     {
-        $this->append(new Comparison(Comparator::MATCH, [$value, $pattern], $logic));
+        $this->append(Comparison::match($value, $pattern, $logic));
         return $this;
     }
 }
