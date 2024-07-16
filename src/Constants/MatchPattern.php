@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Dmcz\RangeDefiner\constants;
+namespace Dmcz\RangeDefiner\Constants;
 
 /**
- * types of matching patterns
+ * types of matching patterns.
  */
 enum MatchPattern
 {

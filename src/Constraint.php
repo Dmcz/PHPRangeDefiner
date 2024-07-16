@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Dmcz\RangeDefiner;
 
-use Dmcz\RangeDefiner\constants\Logic;
+use Dmcz\RangeDefiner\Constants\Logic;
 
 /**
  * Manages a collection of comparison conditions, associating them with a logical relationship.
- * 
+ *
  * @template T
  */
 class Constraint
 {
     /**
-     * collection of comparisons
+     * collection of comparisons.
      *
      * @var Comparison<T>[]
      */
@@ -22,12 +22,12 @@ class Constraint
 
     public function __construct(
         public readonly Logic $logic = Logic::AND
-    ){
+    ) {
         $this->comparisons = [];
     }
 
     /**
-     * get comparisons
+     * get comparisons.
      *
      * @return Comparison<T>[]
      */
@@ -38,9 +38,8 @@ class Constraint
 
     /**
      * Adds a new comparison condition to the collection.
-     * 
+     *
      * @param Comparison<T> $comparison
-     * @return void
      */
     public function push(Comparison $comparison): void
     {
