@@ -51,6 +51,20 @@ class Condition
     }
 
     /**
+     * check this condition is empty or not.
+     *
+     * @return boolean
+     */
+    public function empty(): bool
+    {
+        if(empty($this->ranges) && empty($this->conditions) && empty($this->comparisons)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * get all criteria of this condition.
      *
      * @return array<Condition|Range>
