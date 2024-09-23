@@ -55,7 +55,7 @@ class Condition
      *
      * @return boolean
      */
-    public function empty(): bool
+    public function isEmpty(): bool
     {
         if(empty($this->ranges) && empty($this->conditions) && empty($this->comparisons)){
             return true;
