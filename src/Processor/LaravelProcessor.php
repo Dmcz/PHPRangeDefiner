@@ -61,7 +61,7 @@ class LaravelProcessor
             }
 
         }else if(count($criterias) > 1){
-            $query->where(boolean: $condition->logic->value, column: function ($query) use ($condition, $criterias) {
+            $query->where(boolean: $condition->logic->value, column: function ($query) use ($criterias) {
                 foreach ($criterias as $criteria) {
                     if ($criteria instanceof Condition) {
                         $this->buildQueryFromCondition($criteria, $query);
@@ -90,7 +90,7 @@ class LaravelProcessor
         }else if(count($constraints) > 1){
             $query->where(boolean: $range->logic->value, column: function ($query) use ($constraints, $range) {
                 foreach ($constraints as $constraint) {
-                    $this->buildQueryFromConstraint($range->name, current($constraints), $query);
+                    $this->buildQueryFromConstraint($range->name, $constraint, $query);
                 }
             });
         }
